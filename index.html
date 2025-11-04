@@ -103,21 +103,9 @@
             transform: scale(1.1);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
         }
-        .skill-circle svg {
-            transform: rotate(-90deg);
-        }
-        .skill-circle .circle-bg {
-            fill: none;
-            stroke: rgba(255, 255, 255, 0.2);
-            stroke-width: 12;
-        }
-        .skill-circle .circle-progress {
-            fill: none;
-            stroke-linecap: round;
-            stroke-width: 12;
-            stroke-dasharray: 314;
-            animation: circle-progress 2s ease-out forwards;
-        }
+        .skill-circle svg { transform: rotate(-90deg); }
+        .skill-circle .circle-bg { fill: none; stroke: rgba(255, 255, 255, 0.2); stroke-width: 12; }
+        .skill-circle .circle-progress { fill: none; stroke-linecap: round; stroke-width: 12; stroke-dasharray: 314; animation: circle-progress 2s ease-out forwards; }
         .skill-circle.html .circle-progress { stroke: #ff5733; stroke-dashoffset: 62.8; }
         .skill-circle.css .circle-progress { stroke: #00aaff; stroke-dashoffset: 94.2; }
         .skill-circle.php .circle-progress { stroke: #9b59b6; stroke-dashoffset: 157; }
@@ -138,15 +126,8 @@
             0% { stroke-dashoffset: 314; }
             100% { stroke-dashoffset: inherit; }
         }
-        .zoom-in {
-            opacity: 0;
-            transform: scale(0.9);
-            transition: all 0.6s ease-out;
-        }
-        .zoom-in.visible {
-            opacity: 1;
-            transform: scale(1);
-        }
+        .zoom-in { opacity: 0; transform: scale(0.9); transition: all 0.6s ease-out; }
+        .zoom-in.visible { opacity: 1; transform: scale(1); }
         .icon-link img {
             width: 60px;
             filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.3));
@@ -156,14 +137,8 @@
             transform: scale(1.2) rotate(10deg);
             filter: brightness(1.3) drop-shadow(0 4px 10px rgba(0, 0, 0, 0.4));
         }
-        .hobby-img {
-            max-width: 120px;
-            border-radius: 10px;
-            transition: transform 0.3s ease;
-        }
-        .hobby-img:hover {
-            transform: scale(1.1);
-        }
+        .hobby-img { max-width: 120px; border-radius: 10px; transition: transform 0.3s ease; }
+        .hobby-img:hover { transform: scale(1.1); }
         footer {
             background: #1e2a44;
             padding: 1.5rem;
@@ -184,10 +159,7 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
             transition: all 0.3s ease;
         }
-        #scrollTopBtn:hover {
-            background: #ffca2c;
-            transform: scale(1.1);
-        }
+        #scrollTopBtn:hover { background: #ffca2c; transform: scale(1.1); }
         .btn-custom {
             display: inline-block;
             padding: 10px 20px;
@@ -198,10 +170,7 @@
             font-weight: 600;
             transition: all 0.3s ease;
         }
-        .btn-custom:hover {
-            background: #ffca2c;
-            transform: scale(1.05);
-        }
+        .btn-custom:hover { background: #ffca2c; transform: scale(1.05); }
         button1 {
             align-items: center;
             background-image: linear-gradient(144deg, #af40ff, #5b42f3 50%, #00ddeb);
@@ -225,9 +194,7 @@
             cursor: pointer;
             transition: all 0.3s;
         }
-        button1:hover {
-            outline: 0;
-        }
+        button1:hover { outline: 0; }
         button1 span {
             background-color: rgb(5, 6, 45);
             padding: 16px 24px;
@@ -236,12 +203,8 @@
             height: 100%;
             transition: 300ms;
         }
-        button1:hover span {
-            background: none;
-        }
-        button1:active {
-            transform: scale(0.9);
-        }
+        button1:hover span { background: none; }
+        button1:active { transform: scale(0.9); }
         @media (max-width: 768px) {
             .profile-img { max-width: 150px; }
             .section-title { font-size: 1.5rem; }
@@ -342,32 +305,74 @@
             </p>
         </section>
 
+        <!-- ===================== PROJETS (modifié uniquement ici) ===================== -->
         <section id="Projets" class="zoom-in">
             <h2 class="section-title">Projets</h2>
             <p class="text-center">Voici mes projets réalisés à ce jour 🚧 :</p>
             <div class="row text-center">
+
+                <!-- CV en ligne -->
                 <div class="col-md-6 mb-3">
                     <a href="https://github.com/Idir1615/CV-EN-LIGNE" target="_blank" style="color: #ffc107;"><strong>CV en ligne</strong></a>
                     <p>Site interactif - HTML, CSS, JavaScript</p>
+                    <p>
+                        <strong>- Développer des interfaces web simples</strong><br>
+                        <strong>- Intégrer des éléments graphiques dans une page web</strong><br>
+                        <strong>- Publier un site statique</strong><br>
+                        <strong>- Utiliser des outils de versionning (Git, si utilisé)</strong>
+                    </p>
                 </div>
+
+                <!-- Première page HTML -->
                 <div class="col-md-6 mb-3">
                     <a href="https://github.com/Idir1615/PREMIEREPAGEHTML" target="_blank" style="color: #ffc107;"><strong>Première page HTML</strong></a>
                     <p>Initiation web - HTML, CSS</p>
+                    <p>
+                        <strong>- Structurer une page web avec HTML</strong><br>
+                        <strong>- Mettre en forme du contenu avec CSS</strong><br>
+                        <strong>- Respecter les standards du web</strong>
+                    </p>
                 </div>
+
+                <!-- Site de vente -->
                 <div class="col-md-6 mb-3">
                     <a href="https://github.com/Idir1615/Projet-Groupe-SITE-VENTE" target="_blank" style="color: #ffc107;"><strong>Site de vente</strong></a>
                     <p>E-commerce - PHP, MySQL</p>
+                    <p>
+                        <strong>- Concevoir et implémenter une base de données</strong><br>
+                        <strong>- Développer des composants d’accès aux données</strong><br>
+                        <strong>- Mettre en œuvre un CRUD complet</strong><br>
+                        <strong>- Sécuriser les échanges et données utilisateurs</strong>
+                    </p>
                 </div>
+
+                <!-- Site immobilier -->
                 <div class="col-md-6 mb-3">
                     <a href="https://github.com/Idir1615/SITE-IMMO-BDD" target="_blank" style="color: #ffc107;"><strong>Site immobilier</strong></a>
                     <p>Gestion BDD - PHP, MySQL, CSS</p>
+                    <p>
+                        <strong>- Concevoir une application web connectée à une BDD</strong><br>
+                        <strong>- Développer des formulaires et requêtes SQL</strong><br>
+                        <strong>- Implémenter une authentification basique</strong><br>
+                        <strong>- Générer des pages dynamiques à partir des données</strong>
+                    </p>
                 </div>
+
+                <!-- GLPI -->
                 <div class="col-md-6 mb-3">
                     <a href="https://github.com/Idir1615/GLPI" target="_blank" style="color: #ffc107;"><strong>Déploiement d'un serveur GLPI</strong></a>
                     <p>Installation et configuration d'un serveur GLPI</p>
+                    <p>
+                        <strong>- Installer et configurer un service réseau</strong><br>
+                        <strong>- Administrer une solution open-source</strong><br>
+                        <strong>- Gérer des comptes utilisateurs et droits d’accès</strong><br>
+                        <strong>- Documenter une procédure technique</strong>
+                    </p>
                 </div>
+
             </div>
         </section>
+        <!-- =================== FIN PROJETS =================== -->
 
         <section id="Veilles" class="zoom-in">
             <h2 class="section-title">Veille Technologique 📔</h2>
@@ -517,5 +522,3 @@
     </script>
 </body>
 </html>
-
-
