@@ -8,867 +8,272 @@
   <meta name="theme-color" content="#6f42c1">
   <title>Portfolio – Idir Sehrane</title>
 
-  <!-- Perf: preconnect fonts -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- =======================
+       CSS COMPLET
+       ======================= -->
   <style>
     :root{
       --bg1:#007bff;
       --bg2:#6f42c1;
       --accent:#ffc107;
-      --card:#ffffff;
-      --textDark:#1e2a44;
+      --dark:#1e2a44;
+      --glass:rgba(255,255,255,0.1);
+      --shadow:0 6px 20px rgba(0,0,0,.2);
     }
+
+    html{scroll-behavior:smooth;}
 
     body{
       font-family:'Poppins',sans-serif;
-      background:linear-gradient(135deg,var(--bg1) 0%,var(--bg2) 100%);
+      background:linear-gradient(135deg,var(--bg1),var(--bg2));
       color:#fff;
       margin:0;
       overflow-x:hidden;
-      position:relative;
     }
 
-    /* Particles layer */
     #particles{
-      position:fixed; inset:0;
+      position:fixed;
+      inset:0;
       z-index:-1;
       pointer-events:none;
     }
 
-    /* Navbar */
     .navbar{
       background:rgba(0,123,255,.9);
       padding:1rem;
       box-shadow:0 4px 15px rgba(0,0,0,.3);
       backdrop-filter:blur(5px);
     }
-    .navbar-brand{color:#fff!important;font-weight:700;font-size:1.25rem;}
-    .nav-link{color:#fff!important;font-weight:400;padding:.5rem 1rem;transition:all .2s ease;}
+
+    .navbar-brand{color:#fff!important;font-weight:700;}
+    .nav-link{color:#fff!important;transition:.2s;}
     .nav-link:hover{color:var(--accent)!important;transform:scale(1.05);}
 
-    /* Hero */
-    .profile-img{
-      width:200px; height:200px;
-      object-fit:cover;
-      border-radius:50%;
-      border:5px solid var(--accent);
-      box-shadow:0 8px 20px rgba(0,0,0,.3);
-      transition:transform .3s ease;
-    }
-    .profile-img:hover{transform:rotate(3deg) scale(1.05);}
-
-    .contact-info{
-      background:rgba(255,255,255,.95);
-      padding:1.25rem;
-      border-radius:15px;
-      color:#333;
-      box-shadow:0 6px 15px rgba(0,0,0,.2);
-      max-width:520px;
-      margin:0 auto;
-    }
-
     section{
-      background:rgba(255,255,255,.1);
+      background:var(--glass);
       padding:2rem;
       border-radius:15px;
       margin:2rem auto;
       max-width:1000px;
-      box-shadow:0 6px 20px rgba(0,0,0,.2);
+      box-shadow:var(--shadow);
       backdrop-filter:blur(8px);
     }
 
     .section-title{
-      color:#fff;
+      text-align:center;
       font-size:2rem;
       font-weight:700;
       text-transform:uppercase;
-      letter-spacing:2px;
-      margin-bottom:1.25rem;
-      text-shadow:2px 2px 4px rgba(0,0,0,.3);
-      text-align:center;
+      margin-bottom:1.5rem;
     }
 
-    /* Smooth reveal */
-    .zoom-in{opacity:0;transform:scale(.96);transition:all .55s ease-out;}
-    .zoom-in.visible{opacity:1;transform:scale(1);}
+    .profile-img{
+      width:200px;height:200px;
+      border-radius:50%;
+      border:5px solid var(--accent);
+      object-fit:cover;
+      box-shadow:0 8px 20px rgba(0,0,0,.3);
+    }
 
-    /* Buttons */
+    .contact-info{
+      background:#fff;
+      color:#333;
+      padding:1.25rem;
+      border-radius:15px;
+      max-width:520px;
+      margin:1.5rem auto 0;
+    }
+
     .btn-custom{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding:10px 18px;
       background:var(--accent);
-      color:var(--textDark);
+      color:#1e2a44;
       border-radius:10px;
+      padding:10px 18px;
       text-decoration:none;
       font-weight:700;
-      border:none;
-      transition:transform .2s ease, background .2s ease;
-      gap:8px;
-    }
-    .btn-custom:hover{background:#ffca2c;transform:scale(1.03);}
-
-    .btn-gradient{
       display:inline-flex;
+      gap:8px;
       align-items:center;
+      border:none;
+    }
+
+    .btn-custom:hover{background:#ffca2c;}
+
+    .skills-container{
+      display:flex;
+      flex-wrap:wrap;
       justify-content:center;
-      gap:10px;
-      border-radius:12px;
-      padding:12px 16px;
-      color:#fff;
-      text-decoration:none;
-      font-weight:700;
-      background-image:linear-gradient(144deg,#af40ff,#5b42f3 50%,#00ddeb);
-      box-shadow:rgba(151,65,252,.2) 0 15px 30px -5px;
-      border:0;
-      transition:transform .2s ease;
+      gap:1.5rem;
     }
-    .btn-gradient:hover{transform:scale(1.02);}
 
-    /* Skills circles */
-    .skills-container{display:flex;flex-wrap:wrap;justify-content:center;gap:1.5rem;}
     .skill-circle{
-      position:relative;
       width:120px;height:120px;
-      transition:transform .2s ease,box-shadow .2s ease;
-    }
-    .skill-circle:hover{transform:scale(1.06);box-shadow:0 8px 25px rgba(0,0,0,.35);}
-    .skill-circle svg{transform:rotate(-90deg);}
-    .skill-circle .circle-bg{fill:none;stroke:rgba(255,255,255,.22);stroke-width:12;}
-    .skill-circle .circle-progress{
-      fill:none;
-      stroke:var(--c,#fff);
-      stroke-linecap:round;
-      stroke-width:12;
-      stroke-dasharray:314;
-      stroke-dashoffset:314; /* start empty */
-      transition:stroke-dashoffset 1s ease;
-    }
-    .skill-circle span{
-      position:absolute;top:50%;left:50%;
-      transform:translate(-50%,-50%);
-      font-size:1rem;font-weight:700;color:#fff;text-align:center;
-      width:100%;
-      line-height:1.05;
-    }
-    .skill-circle span small{
-      font-size:.85rem;
-      font-weight:600;
-      opacity:.9;
-    }
-
-    /* Cards de veille */
-    .vt-card{
-      background:rgba(255,255,255,.95);
-      color:var(--textDark);
-      border-radius:16px;
-      padding:16px;
-      height:100%;
-      box-shadow:0 6px 20px rgba(0,0,0,.15);
-      transition:transform .15s ease,box-shadow .15s ease;
-      display:flex;flex-direction:column;gap:10px;
-    }
-    .vt-card:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(0,0,0,.22);}
-    .vt-thumb{
-      width:100%;
-      aspect-ratio:16/9;
-      border-radius:12px;
-      overflow:hidden;
-      background:#eef1f6;
-      display:flex;align-items:center;justify-content:center;
       position:relative;
     }
-    .vt-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
-    .vt-thumb.vt-placeholder{
-      background:linear-gradient(135deg,#e8ecff,#f6f7ff);
-      color:#2b3674;font-weight:900;letter-spacing:.5px;font-size:1.1rem;
+
+    .skill-circle svg{transform:rotate(-90deg);}
+
+    .circle-bg{
+      fill:none;
+      stroke:rgba(255,255,255,.2);
+      stroke-width:12;
     }
-    .vt-source{font-size:.9rem;color:#6f42c1;font-weight:800;margin-bottom:2px;}
-    .vt-title{font-weight:800;margin:2px 0 2px 0;}
-    .vt-desc{font-size:.95rem;margin:0;}
 
-    /* Footer */
-    footer{background:#1e2a44;padding:1.25rem;text-align:center;color:var(--accent);}
+    .circle-progress{
+      fill:none;
+      stroke-width:12;
+      stroke-linecap:round;
+      stroke-dasharray:314;
+      stroke-dashoffset:314;
+      transition:1s;
+    }
 
-    /* Scroll top */
+    .skill-circle span{
+      position:absolute;
+      top:50%;left:50%;
+      transform:translate(-50%,-50%);
+      text-align:center;
+      font-weight:700;
+    }
+
+    .vt-card{
+      background:#fff;
+      color:#1e2a44;
+      padding:16px;
+      border-radius:16px;
+      box-shadow:var(--shadow);
+      height:100%;
+    }
+
+    footer{
+      background:#1e2a44;
+      padding:1.5rem;
+      text-align:center;
+      color:var(--accent);
+    }
+
     #scrollTopBtn{
-      position:fixed;bottom:30px;right:30px;
+      position:fixed;
+      bottom:30px;right:30px;
       display:none;
-      background:var(--accent);
-      border:none;border-radius:50%;
       width:50px;height:50px;
-      box-shadow:0 4px 15px rgba(0,0,0,.3);
-      transition:transform .2s ease, background .2s ease;
+      border-radius:50%;
+      border:none;
+      background:var(--accent);
     }
-    #scrollTopBtn:hover{background:#ffca2c;transform:scale(1.06);}
 
-    /* Responsive */
-    @media (max-width:768px){
+    @media(max-width:768px){
       .profile-img{width:150px;height:150px;}
       .section-title{font-size:1.5rem;}
-      section{padding:1.5rem;margin:1.25rem .75rem;}
-      .skills-container{gap:1rem;}
-      .skill-circle{width:105px;height:105px;}
-    }
-
-    /* Accessibilité: réduire animations */
-    @media (prefers-reduced-motion: reduce){
-      *{animation:none!important;transition:none!important;scroll-behavior:auto!important;}
-      .zoom-in{opacity:1;transform:none;}
     }
   </style>
 </head>
 
 <body>
-  <canvas id="particles" aria-hidden="true"></canvas>
 
-  <nav class="navbar navbar-expand-lg navbar-dark sticky-top" aria-label="Menu de navigation">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#top">Portfolio – Sehrane Idir</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-              aria-controls="navbarNav" aria-expanded="false" aria-label="Basculer la navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+<canvas id="particles"></canvas>
 
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="#a-propos">À propos</a></li>
-          <li class="nav-item"><a class="nav-link" href="#competences">Compétences</a></li>
-          <li class="nav-item"><a class="nav-link" href="#experiences">Expériences</a></li>
-          <li class="nav-item"><a class="nav-link" href="#formation">Formation</a></li>
-          <li class="nav-item"><a class="nav-link" href="#certifications">Certifications</a></li>
-          <li class="nav-item"><a class="nav-link" href="#projets">Projets</a></li>
-          <li class="nav-item"><a class="nav-link" href="#veilles">Veilles</a></li>
-          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-          <li class="nav-item"><a class="nav-link" href="#loisirs">Loisirs</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="#top">Portfolio – Idir Sehrane</a>
+  </div>
+</nav>
 
-  <main id="top">
-    <header class="container text-center my-5 zoom-in">
-      <h1 class="display-6 fw-bold" id="typing-title" aria-label="Titre de présentation"></h1>
+<main id="top">
 
-      <img
-        src="css/images/IMG-20231030-WA0018 (1).jpg"
-        alt="Photo de profil de Idir Sehrane"
-        class="profile-img mt-3"
-        loading="lazy"
-        decoding="async"
-      >
+<header class="container text-center my-5">
+  <h1 id="typing-title" class="fw-bold"></h1>
+  <img src="css/images/photo.jpg" alt="Idir Sehrane" class="profile-img mt-3">
+  <div class="contact-info">
+    <p><strong>Idir Sehrane</strong></p>
+    <p>20 ans</p>
+    <p>07 69 02 69 23</p>
+  </div>
+</header>
 
-      <div class="contact-info mt-4">
-        <p class="mb-1"><strong>Prénom :</strong> Idir</p>
-        <p class="mb-1"><strong>Nom :</strong> Sehrane</p>
-        <p class="mb-1"><strong>Âge :</strong> 20 ans</p>
-        <p class="mb-0"><strong>Téléphone :</strong> 07.69.02.69.23</p>
-      </div>
-    </header>
+<section id="competences">
+  <h2 class="section-title">Compétences</h2>
+  <div class="skills-container">
 
-    <section id="a-propos" class="zoom-in">
-      <h2 class="section-title">À propos</h2>
-
-      <p class="text-center mb-3">
-        Salut, moi c’est Idir Sehrane 👋 ! Passionné d’informatique, je suis en 1re année de BTS SIO (option SLAM) à l’école IRIS.
-        Je recherche un stage en informatique du <strong>2 juin au 5 juillet 2025</strong> et une alternance pour 2026 (3 jours entreprise / 2 jours cours).
-      </p>
-
-      <div class="text-center">
-        <button id="secret-btn" class="btn-custom" type="button" aria-expanded="false" aria-controls="secret-text">
-          <i class="fa-solid fa-magnifying-glass"></i> Petit bonus
-        </button>
-        <p id="secret-text" class="mt-3" style="display:none;">
-          Psst… tu as trouvé mon secret  : j’adore coder en écoutant de le phonk (style un peu fort).
-        </p>
-      </div>
-
-      <div class="text-center mt-4">
-        <a class="btn-gradient" href="PDF/Idir SEHRANE IRIS - CV MEDIASCHOOL.pdf" target="_blank" rel="noopener noreferrer">
-          <i class="fa-solid fa-file-arrow-down"></i> Télécharger mon CV (PDF)
-        </a>
-      </div>
-
-      <div class="text-center mt-4">
-        <a class="btn-gradient" href="PDF/BTS SIO 2026 - Epreuve E5 - Tableau de synthèse 1 Sehrane Iidr.pdf" target="_blank" rel="noopener noreferrer">
-          <i class="fa-solid fa-file-arrow-down"></i> Télécharger Tableau de synthèse (PDF)
-        </a>
-      </div>
-    </section>
-
-    <section id="competences" class="zoom-in">
-      <h2 class="section-title">Compétences</h2>
-
-      <h3 class="text-center">Développement 👨‍💻</h3>
-      <div class="skills-container mt-3">
-
-        <!-- Mets les % que tu veux ici -->
-        <div class="skill-circle" data-percent="90" data-color="#ff5733" aria-label="HTML">
-          <svg width="120" height="120" viewBox="0 0 130 130" role="img" aria-hidden="true">
-            <circle class="circle-bg" cx="65" cy="65" r="55"></circle>
-            <circle class="circle-progress" cx="65" cy="65" r="55"></circle>
-          </svg>
-          <span>HTML<br><small>90%</small></span>
-        </div>
-
-        <div class="skill-circle" data-percent="80" data-color="#00aaff" aria-label="CSS">
-          <svg width="120" height="120" viewBox="0 0 130 130" role="img" aria-hidden="true">
-            <circle class="circle-bg" cx="65" cy="65" r="55"></circle>
-            <circle class="circle-progress" cx="65" cy="65" r="55"></circle>
-          </svg>
-          <span>CSS<br><small>80%</small></span>
-        </div>
-
-        <div class="skill-circle" data-percent="70" data-color="#9b59b6" aria-label="PHP">
-          <svg width="120" height="120" viewBox="0 0 130 130" role="img" aria-hidden="true">
-            <circle class="circle-bg" cx="65" cy="65" r="55"></circle>
-            <circle class="circle-progress" cx="65" cy="65" r="55"></circle>
-          </svg>
-          <span>PHP<br><small>70%</small></span>
-        </div>
-
-        <div class="skill-circle" data-percent="75" data-color="#2ecc71" aria-label="MySQL">
-          <svg width="120" height="120" viewBox="0 0 130 130" role="img" aria-hidden="true">
-            <circle class="circle-bg" cx="65" cy="65" r="55"></circle>
-            <circle class="circle-progress" cx="65" cy="65" r="55"></circle>
-          </svg>
-          <span>MySQL<br><small>75%</small></span>
-        </div>
-
-        <div class="skill-circle" data-percent="65" data-color="#f1c40f" aria-label="Java">
-          <svg width="120" height="120" viewBox="0 0 130 130" role="img" aria-hidden="true">
-            <circle class="circle-bg" cx="65" cy="65" r="55"></circle>
-            <circle class="circle-progress" cx="65" cy="65" r="55"></circle>
-          </svg>
-          <span>Java<br><small>65%</small></span>
-        </div>
-
-        <div class="skill-circle" data-percent="60" data-color="#00cc00" aria-label="Linux">
-          <svg width="120" height="120" viewBox="0 0 130 130" role="img" aria-hidden="true">
-            <circle class="circle-bg" cx="65" cy="65" r="55"></circle>
-            <circle class="circle-progress" cx="65" cy="65" r="55"></circle>
-          </svg>
-          <span>Linux<br><small>60%</small></span>
-        </div>
-      </div>
-
-      <h3 class="text-center mt-4">Outils ⚙️</h3>
-      <div class="row text-center mt-2">
-        <div class="col-6 col-md-3"><p class="mb-1">Eclipse</p></div>
-        <div class="col-6 col-md-3"><p class="mb-1">XAMPP</p></div>
-        <div class="col-6 col-md-3"><p class="mb-1">VS Code</p></div>
-        <div class="col-6 col-md-3"><p class="mb-1">GitHub</p></div>
-      </div>
-    </section>
-
-    <section id="experiences" class="zoom-in">
-      <h2 class="section-title">Expériences</h2>
-      <ul class="list-unstyled text-center mb-0">
-        <li><strong>Recherche stage informatique</strong> – 2 juin au 5 juillet 2025</li>
-        <li><strong>Hôte événementiel</strong> – M&M’s, L’Isle-Adam (Juin 2024)</li>
-        <li><strong>Hôte événementiel</strong> – Nespresso Premium, Saint-Brice (Mars 2024 – Avril 2024)</li>
-        <li><strong>Stage comptabilité</strong> – JCJ, Bagnolet (Juin 2021 – Juillet 2021)</li>
-      </ul>
-    </section>
-
-    <section id="formation" class="zoom-in">
-      <h2 class="section-title">Formation</h2>
-      <ul class="list-unstyled text-center">
-        <li>
-          <strong>BTS SIO (1re année en cours)</strong> –
-          <a href="https://ecoleiris.fr" target="_blank" rel="noopener noreferrer" style="color:var(--accent);">IRIS</a>, Paris (Oct. 2024 – Juil. 2025)
-        </li>
-        <li><strong>L1 Informatique</strong> – Université Sorbonne Paris Nord (Sept. 2023 – Juin 2024)</li>
-        <li><strong>Bac Mathématiques – Physique-Chimie</strong> – Lycée Jean-Jacques Rousseau, Sarcelles (2021 – 2023)</li>
-      </ul>
-
-      <h3 class="text-center mt-4">Qu’est-ce que le BTS SIO ? 🎓</h3>
-      <p class="text-center mb-0">
-        Le BTS SIO forme en 2 ans aux métiers de l’informatique.
-        Option <strong>SLAM</strong> : développement d’applications (HTML, PHP, Java) + gestion de bases de données (MySQL).
-      </p>
-    </section>
-
- <section id="certifications" class="zoom-in">
-  <h2 class="section-title">Certifications</h2>
-
-  <div class="row g-4 justify-content-center">
-
-    <!-- PIX -->
-    <div class="col-md-6">
-      <div class="vt-card text-center">
-        <h4 class="fw-bold">PIX</h4>
-        <p class="mb-2">Certification en compétences numériques</p>
-        <p class="mb-2"><strong>Score :</strong> 768 PIX</p>
-        <p class="mb-3"><small>Délivrée le 08/02/2023</small></p>
-        <a class="btn-custom" href="PDF/PIX.pdf" target="_blank" rel="noopener noreferrer">
-          <i class="fa-solid fa-file-pdf"></i> Voir la certification Pix
-        </a>
-      </div>
+    <div class="skill-circle" data-percent="90" data-color="#ff5733">
+      <svg width="120" height="120">
+        <circle class="circle-bg" cx="60" cy="60" r="50"/>
+        <circle class="circle-progress" cx="60" cy="60" r="50"/>
+      </svg>
+      <span>HTML<br>90%</span>
     </div>
 
-    <!-- SecNum -->
-    <div class="col-md-6">
-      <div class="vt-card text-center">
-        <h4 class="fw-bold">ANSSI – SecNumAcadémie</h4>
-        <p class="mb-2">Attestation de suivi – Sécurité informatique</p>
-        <p class="mb-2">
-          Scores : 90% • 92% • 92% • 94%
-        </p>
-        <p class="mb-3"><small>Février 2026</small></p>
-        <a class="btn-custom" href="PDF/Certification Idir Sehrane.pdf" target="_blank" rel="noopener noreferrer">
-          <i class="fa-solid fa-file-pdf"></i> Voir l’attestation
-        </a>
-      </div>
+    <div class="skill-circle" data-percent="80" data-color="#00aaff">
+      <svg width="120" height="120">
+        <circle class="circle-bg" cx="60" cy="60" r="50"/>
+        <circle class="circle-progress" cx="60" cy="60" r="50"/>
+      </svg>
+      <span>CSS<br>80%</span>
     </div>
 
   </div>
 </section>
 
+<section id="contact" class="text-center">
+  <h2 class="section-title">Contact</h2>
+  <a href="mailto:idir.sehrane@gmail.com" class="btn-custom">
+    <i class="fa-solid fa-envelope"></i> Email
+  </a>
+</section>
 
-    
+</main>
 
+<footer>
+  © <span id="year"></span> Idir Sehrane
+</footer>
 
-    <section id="projets" class="zoom-in">
-      <h2 class="section-title">Projets</h2>
-      <p class="text-center">Voici mes projets réalisés 🚧 :</p>
+<button id="scrollTopBtn">
+  <i class="fa-solid fa-arrow-up"></i>
+</button>
 
-      <div class="row text-center g-3">
-        <div class="col-md-6">
-          <div class="vt-card">
-            <div class="vt-title">
-              <a href="https://github.com/Idir1615/CV-EN-LIGNE" target="_blank" rel="noopener noreferrer" style="color:#6f42c1;text-decoration:none;">
-                CV en ligne
-              </a>
-            </div>
-            <p class="vt-desc">Site interactif – HTML, CSS, JavaScript</p>
-            <p class="vt-desc"><strong>Compétences :</strong> interfaces web, éléments graphiques, déploiement statique.</p>
-          </div>
-        </div>
+<!-- =======================
+     JS
+     ======================= -->
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
 
-        <div class="col-md-6">
-          <div class="vt-card">
-            <div class="vt-title">
-              <a href="https://github.com/Idir1615/PREMIEREPAGEHTML" target="_blank" rel="noopener noreferrer" style="color:#6f42c1;text-decoration:none;">
-                Première page HTML
-              </a>
-            </div>
-            <p class="vt-desc">Initiation web – HTML, CSS</p>
-            <p class="vt-desc"><strong>Compétences :</strong> structuration HTML, mise en forme CSS, standards web.</p>
-          </div>
-        </div>
-
-        <div class="col-md-6">
-          <div class="vt-card">
-            <div class="vt-title">
-              <a href="https://github.com/Idir1615/Projet-Groupe-SITE-VENTE" target="_blank" rel="noopener noreferrer" style="color:#6f42c1;text-decoration:none;">
-                Site de vente
-              </a>
-            </div>
-            <p class="vt-desc">E-commerce – PHP, MySQL</p>
-            <p class="vt-desc"><strong>Compétences :</strong> BDD, CRUD, sécurisation, accès aux données.</p>
-          </div>
-        </div>
-
-        <div class="col-md-6">
-          <div class="vt-card">
-            <div class="vt-title">
-              <a href="https://github.com/Idir1615/SITE-IMMO-BDD" target="_blank" rel="noopener noreferrer" style="color:#6f42c1;text-decoration:none;">
-                Site immobilier
-              </a>
-            </div>
-            <p class="vt-desc">Gestion BDD – PHP, MySQL, CSS</p>
-            <p class="vt-desc"><strong>Compétences :</strong> formulaires, requêtes SQL, pages dynamiques, auth basique.</p>
-          </div>
-        </div>
-
-        <div class="col-md-6">
-          <div class="vt-card">
-            <div class="vt-title">
-              <a href="https://github.com/Idir1615/Site-IMMOBILIER-NEIGESOLEIL" target="_blank" rel="noopener noreferrer" style="color:#6f42c1;text-decoration:none;">
-                Site Immobilier Neige & Soleil
-              </a>
-            </div>
-            <p class="vt-desc">Responsive – présentation de biens</p>
-            <p class="vt-desc"><strong>Compétences :</strong> responsive, BDD, déploiement, documentation.</p>
-          </div>
-        </div>
-
-        <div class="col-md-6">
-          <div class="vt-card">
-            <div class="vt-title">
-              <a href="https://github.com/Idir1615/GLPI" target="_blank" rel="noopener noreferrer" style="color:#6f42c1;text-decoration:none;">
-                Présentation GLPI
-              </a>
-            </div>
-            <p class="vt-desc">Gestion de parc informatique</p>
-            <p class="vt-desc"><strong>Compétences :</strong> installation, configuration, comptes, procédures.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="veilles" class="zoom-in">
-      <h2 class="section-title">Veille Technologique 📔</h2>
-
-      <div class="mb-4">
-        <h3 class="text-center">GPU & IA (DLSS/FSR, architectures, drivers)</h3>
-        <p class="text-center"><small>Flux auto (peut dépendre des CORS / proxy).</small></p>
-        <div id="feed-gpu" class="row g-3"></div>
-      </div>
-
-      <div class="mt-5">
-        <h3 class="text-center">Cloud Gaming & usages pro</h3>
-        <p class="text-center"><small>Actus plateformes & cloud.</small></p>
-        <div id="feed-cloud" class="row g-3"></div>
-      </div>
-
-      <div class="text-center mt-4">
-        <a href="PDF/VEILLE TECHNOLOGIQUE .pdf" target="_blank" rel="noopener noreferrer" class="btn-custom me-2">
-          <i class="fa-solid fa-file-pdf"></i> PDF GPU/IA
-        </a>
-        <a href="PDF/VEILLE TECHNOLOGIQUE 2 .pdf" target="_blank" rel="noopener noreferrer" class="btn-custom">
-          <i class="fa-solid fa-file-pdf"></i> PDF Cloud Gaming
-        </a>
-      </div>
-    </section>
-
-    <section id="contact" class="zoom-in text-center">
-      <h2 class="section-title">Contact</h2>
-
-      <div class="d-flex justify-content-center gap-4 flex-wrap">
-        <a href="mailto:idir.sehrane@gmail.com" class="btn-custom" aria-label="Envoyer un email">
-          <i class="fa-solid fa-envelope"></i> Email
-        </a>
-        <a href="https://www.linkedin.com/in/idir-sehrane-239a97259/" target="_blank" rel="noopener noreferrer" class="btn-custom" aria-label="LinkedIn">
-          <i class="fa-brands fa-linkedin"></i> LinkedIn
-        </a>
-        <a href="https://github.com/Idir1615" target="_blank" rel="noopener noreferrer" class="btn-custom" aria-label="GitHub">
-          <i class="fa-brands fa-github"></i> GitHub
-        </a>
-      </div>
-
-      <p class="mt-4 mb-0" style="opacity:.9;">
-        (Astuce) Le formulaire pour le “mailto:” marche parfois mal selon les app. Pour un vrai formulaire, il faut un backend (comme PHP).
-      </p>
-    </section>
-
-    <section id="loisirs" class="zoom-in">
-      <h2 class="section-title">Loisirs</h2>
-
-      <div class="row text-center g-3">
-        <div class="col-md-6">
-          <div class="vt-card">
-            <div class="vt-title">Jeux vidéo</div>
-            <p class="vt-desc">Fan de FPS, RPG et compétitions (Valorant).</p>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="vt-card">
-            <div class="vt-title">Powerlifting</div>
-            <p class="vt-desc">Entraînement physique & défis personnels.</p>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="vt-card">
-            <div class="vt-title">Réparation informatique</div>
-            <p class="vt-desc">Hardware / software, dépannage, optimisation.</p>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="vt-card">
-            <div class="vt-title">Montage vidéo & IA</div>
-            <p class="vt-desc">Création de contenus + outils IA.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <p class="mb-0">© <span id="year"></span> Idir Sehrane</p>
-  </footer>
-
-  <button id="scrollTopBtn" class="btn" aria-label="Retour en haut">
-    <i class="fas fa-arrow-up"></i>
-  </button>
-
-  <!-- Bootstrap Bundle -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-          crossorigin="anonymous" defer></script>
-
-  <script defer>
-    // Year
-    document.getElementById("year").textContent = new Date().getFullYear();
-
-    // Scroll to top
-    const scrollTopBtn = document.getElementById('scrollTopBtn');
-    window.addEventListener("scroll", () => {
-      scrollTopBtn.style.display = (window.scrollY > 200) ? "block" : "none";
-    });
-    scrollTopBtn.addEventListener("click", () => window.scrollTo({top:0, behavior:"smooth"}));
-
-    // Reveal on scroll
-    const zoomElements = document.querySelectorAll('.zoom-in');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
-    }, {threshold: 0.2});
-    zoomElements.forEach(el => observer.observe(el));
-
-    // Typing effect
-    const text = "Étudiant en BTS SIO – Recherche une alternance pour un Bachelor 3ᵉ année IRIS-MEDIASCHOOL";
-    const titleEl = document.getElementById("typing-title");
-    let index = 0;
-    function type() {
-      if (index < text.length) {
-        titleEl.textContent += text.charAt(index++);
-        setTimeout(type, 30);
-      }
+  const title = "Étudiant BTS SIO – Recherche alternance";
+  let i = 0;
+  const el = document.getElementById("typing-title");
+  (function type(){
+    if(i<title.length){
+      el.textContent += title[i++];
+      setTimeout(type,30);
     }
-    type();
+  })();
 
-    // Secret
-    const secretBtn = document.getElementById('secret-btn');
-    const secretText = document.getElementById('secret-text');
-    secretBtn.addEventListener('click', () => {
-      secretText.style.display = 'block';
-      secretBtn.setAttribute("aria-expanded", "true");
-      secretBtn.style.display = 'none';
-    });
+  const CIRC = 314;
+  document.querySelectorAll(".skill-circle").forEach(sc=>{
+    const p = sc.dataset.percent;
+    const c = sc.dataset.color;
+    const offset = CIRC * (1 - p/100);
+    const prog = sc.querySelector(".circle-progress");
+    prog.style.stroke = c;
+    setTimeout(()=>prog.style.strokeDashoffset = offset,300);
+  });
 
-    // Particles (plus net avec DPR)
-    const canvas = document.getElementById('particles');
-    const ctx = canvas.getContext('2d');
-    let particlesArray = [];
-    let rafId = null;
+  const btn = document.getElementById("scrollTopBtn");
+  window.addEventListener("scroll",()=>{
+    btn.style.display = window.scrollY>200?"block":"none";
+  });
+  btn.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});
+</script>
 
-    function resizeCanvas(){
-      const dpr = window.devicePixelRatio || 1;
-      canvas.width = Math.floor(window.innerWidth * dpr);
-      canvas.height = Math.floor(window.innerHeight * dpr);
-      canvas.style.width = window.innerWidth + "px";
-      canvas.style.height = window.innerHeight + "px";
-      ctx.setTransform(dpr,0,0,dpr,0,0);
-    }
-
-    class Particle {
-      constructor() { this.reset(); }
-      reset(){
-        this.x = Math.random() * window.innerWidth;
-        this.y = Math.random() * window.innerHeight;
-        this.size = Math.random() * 4 + 1;
-        this.vx = Math.random() * 0.8 - 0.4;
-        this.vy = Math.random() * 0.8 - 0.4;
-      }
-      update(){
-        this.x += this.vx;
-        this.y += this.vy;
-        if (this.x < 0 || this.x > window.innerWidth || this.y < 0 || this.y > window.innerHeight) this.reset();
-      }
-      draw(){
-        ctx.fillStyle = 'rgba(255,255,255,0.75)';
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
-        ctx.fill();
-      }
-    }
-
-    function initParticles(){
-      particlesArray = [];
-      const count = Math.min(70, Math.floor((window.innerWidth * window.innerHeight) / 25000));
-      for(let i=0;i<count;i++) particlesArray.push(new Particle());
-    }
-
-    function animateParticles(){
-      ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
-      for(const p of particlesArray){ p.update(); p.draw(); }
-      rafId = requestAnimationFrame(animateParticles);
-    }
-
-    function startParticles(){
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-      resizeCanvas();
-      initParticles();
-      if (rafId) cancelAnimationFrame(rafId);
-      animateParticles();
-    }
-
-    document.addEventListener("visibilitychange", () => {
-      if (document.hidden && rafId) cancelAnimationFrame(rafId);
-      if (!document.hidden) startParticles();
-    });
-
-    window.addEventListener('resize', () => startParticles());
-    startParticles();
-  </script>
-
-  <!-- ✅ Skills circles fill (AUTO %) -->
-  <script defer>
-    const CIRC = 314; // on garde ton dasharray
-
-    function fillSkillCircles(){
-      document.querySelectorAll(".skill-circle").forEach(sc => {
-        const percent = Math.max(0, Math.min(100, Number(sc.dataset.percent || 0)));
-        const color = sc.dataset.color || "#fff";
-        const offset = CIRC * (1 - percent / 100);
-
-        sc.style.setProperty("--c", color);
-
-        const prog = sc.querySelector(".circle-progress");
-        prog.style.strokeDasharray = CIRC;
-        prog.style.strokeDashoffset = CIRC; // reset (vide)
-
-        requestAnimationFrame(() => {
-          prog.style.strokeDashoffset = offset; // rempli
-        });
-      });
-    }
-
-    const compSection = document.getElementById("competences");
-    const skillObserver = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if(e.isIntersecting){
-          fillSkillCircles();
-          skillObserver.disconnect();
-        }
-      });
-    }, { threshold: 0.25 });
-
-    if (compSection) skillObserver.observe(compSection);
-  </script>
-
-  <!-- Veilles RSS (sécurisé) -->
-  <script defer>
-    const RSS_PROXY = "https://api.rss2json.com/v1/api.json?rss_url=";
-
-    const FEEDS_GPU = [
-      { name: "NVIDIA Developer Blog", url: "https://developer.nvidia.com/blog/feed" },
-      { name: "NVIDIA Newsroom",      url: "https://nvidianews.nvidia.com/rss" },
-      { name: "AMD GPUOpen",          url: "https://gpuopen.com/feed/" },
-      { name: "TechPowerUp (News)",   url: "https://www.techpowerup.com/rss/news" }
-    ];
-
-    const FEEDS_CLOUD = [
-      { name: "Xbox Wire FR – Cloud Gaming", url: "https://news.xbox.com/fr-fr/cloud-gaming/feed/" },
-      { name: "Microsoft Azure Blog",        url: "https://azure.microsoft.com/en-us/blog/feed/" },
-      { name: "NVIDIA Newsroom",             url: "https://nvidianews.nvidia.com/rss" },
-      { name: "Shadow (blog)",               url: null, homepage: "https://shadow.tech/fr/blog/" }
-    ];
-
-    function escapeHtml(str){
-      return String(str ?? "").replace(/[&<>"']/g, (m) => ({
-        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-      }[m]));
-    }
-
-    function firstImageFromHTML(html){
-      if (!html) return null;
-      const tmp = document.createElement("div");
-      tmp.innerHTML = html;
-      const img = tmp.querySelector("img");
-      return img ? img.src : null;
-    }
-
-    function initialsFromSource(sourceName){
-      const words = (sourceName || "").split(/\s+/).filter(Boolean);
-      const ini = (words[0]?.[0] || "") + (words[1]?.[0] || "");
-      return ini.toUpperCase() || "VT";
-    }
-
-    function cardHTML(item, sourceName){
-      const d = item.pubDate ? new Date(item.pubDate) : null;
-      const when = d ? d.toLocaleDateString("fr-FR", {year:"numeric", month:"short", day:"2-digit"}) : "";
-      const cleanDesc = (item.description || "").replace(/<[^>]+>/g, "");
-      const shortDesc = cleanDesc.length > 180 ? cleanDesc.slice(0,180) + "…" : cleanDesc;
-
-      const imgUrl =
-        item.thumbnail ||
-        (item.enclosure && (item.enclosure.link || item.enclosure.url)) ||
-        firstImageFromHTML(item.description);
-
-      const safeTitle = escapeHtml(item.title || "Sans titre");
-      const safeDesc  = escapeHtml(shortDesc);
-      const safeLink  = escapeHtml(item.link || "#");
-      const safeSource = escapeHtml(sourceName);
-
-      const thumb = imgUrl
-        ? `<div class="vt-thumb">
-             <img src="${escapeHtml(imgUrl)}" alt="" loading="lazy" decoding="async"
-                  onerror="this.closest('.vt-thumb').classList.add('vt-placeholder'); this.remove(); this.closest('.vt-thumb').innerHTML='<span>${initialsFromSource(sourceName)}</span>';">
-           </div>`
-        : `<div class="vt-thumb vt-placeholder"><span>${initialsFromSource(sourceName)}</span></div>`;
-
-      return `
-        <div class="col-md-6 col-lg-4">
-          <div class="vt-card">
-            ${thumb}
-            <div class="vt-source">${safeSource}${when ? " • " + when : ""}</div>
-            <div class="vt-title">${safeTitle}</div>
-            <p class="vt-desc">${safeDesc}</p>
-            <a class="btn-custom mt-auto" href="${safeLink}" target="_blank" rel="noopener noreferrer">Lire</a>
-          </div>
-        </div>`;
-    }
-
-    function fallbackHTML(entry){
-      const link = entry.homepage || entry.url || "#";
-      return `
-        <div class="col-md-6 col-lg-4">
-          <div class="vt-card">
-            <div class="vt-thumb vt-placeholder"><span>${initialsFromSource(entry.name)}</span></div>
-            <div class="vt-source">Lien direct</div>
-            <div class="vt-title">${escapeHtml(entry.name)}</div>
-            <p class="vt-desc">Flux RSS indisponible côté navigateur. Ouvre la source.</p>
-            <a class="btn-custom mt-auto" href="${escapeHtml(link)}" target="_blank" rel="noopener noreferrer">Ouvrir</a>
-          </div>
-        </div>`;
-    }
-
-    async function loadFeeds(containerId, feeds, keywords=[], perFeed=4){
-      const container = document.getElementById(containerId);
-      const cards = [];
-
-      for (const f of feeds){
-        try{
-          if (!f.url){ cards.push(fallbackHTML(f)); continue; }
-          const res = await fetch(RSS_PROXY + encodeURIComponent(f.url));
-          if (!res.ok) throw new Error("HTTP " + res.status);
-          const data = await res.json();
-          let items = (data.items || []).slice(0, 12);
-
-          if (keywords.length){
-            const rx = new RegExp(keywords.map(k => k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|"), "i");
-            items = items.filter(it => rx.test(it.title || "") || rx.test(it.description || ""));
-          }
-
-          items.slice(0, perFeed).forEach(it => cards.push(cardHTML(it, f.name)));
-        } catch(e){
-          cards.push(fallbackHTML(f));
-        }
-      }
-
-      container.innerHTML = cards.length ? cards.join("") : `<div class="text-center">Aucun élément trouvé.</div>`;
-    }
-
-    loadFeeds("feed-gpu", FEEDS_GPU, ["DLSS","FSR","RTX","Blackwell","Ada","RDNA","driver","frame generation"]);
-    loadFeeds("feed-cloud", FEEDS_CLOUD, ["GeForce NOW","Cloud Gaming","Azure","Xbox Cloud","Shadow","latency","AV1"]);
-  </script>
 </body>
 </html>
-
-
-
