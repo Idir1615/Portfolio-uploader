@@ -1358,9 +1358,10 @@ footer {
     <div class="section-line-small"></div>
   </div>
   <h2 class="section-title reveal">Veille <em>technologique</em></h2>
-  <div class="watch-tabs reveal">
+  <div class="watch-tabs reveal" style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
     <button class="watch-tab active" id="tab-gpu" onclick="switchFeed('gpu')">GPU &amp; IA</button>
     <button class="watch-tab" id="tab-cloud" onclick="switchFeed('cloud')">Cloud Gaming</button>
+    <button class="watch-tab" id="btn-refresh" onclick="refreshCurrentFeed()" title="Recharger le flux RSS" style="margin-left:auto;opacity:0.7;font-size:0.8rem;"><i class="fas fa-rotate-right" style="margin-right:0.3rem;"></i>Rafraîchir</button>
   </div>
   <div id="panel-gpu">
     <div class="feed-loading" id="loading-gpu">
@@ -1554,11 +1555,37 @@ if (sc) skillObs.observe(sc);
 /* ════════════════════════════════
    VEILLE TABS + RSS
 ════════════════════════════════ */
+let currentFeed = 'gpu';
 function switchFeed(t) {
+  currentFeed = t;
   document.getElementById('panel-gpu').style.display = t==='gpu' ? '' : 'none';
   document.getElementById('panel-cloud').style.display = t==='cloud' ? '' : 'none';
   document.getElementById('tab-gpu').classList.toggle('active', t==='gpu');
   document.getElementById('tab-cloud').classList.toggle('active', t==='cloud');
+}
+
+function refreshCurrentFeed() {
+  const btn = document.getElementById('btn-refresh');
+  btn.disabled = true; btn.style.opacity = '0.4';
+  if (currentFeed === 'gpu') {
+    document.getElementById('feed-gpu').innerHTML = '';
+    document.getElementById('loading-gpu').style.display = 'flex';
+    loadRSS([
+      { name:'TechPowerUp',    emoji:'🖥️', url:'https://www.techpowerup.com/rss/news' },
+      { name:'VideoCardz',     emoji:'⚡',  url:'https://videocardz.com/feed' },
+      { name:"Tom's Hardware", emoji:'🧠', url:'https://www.tomshardware.com/feeds/all' },
+    ], ['GPU','RTX','DLSS','GeForce','Blackwell','IA','driver','RTX 50','RDNA','FSR','ray tracing','graphics','card'],
+    'feed-gpu', 'loading-gpu', FALLBACK_GPU).finally(() => { btn.disabled=false; btn.style.opacity='0.7'; });
+  } else {
+    document.getElementById('feed-cloud').innerHTML = '';
+    document.getElementById('loading-cloud').style.display = 'flex';
+    loadRSS([
+      { name:'Frandroid', emoji:'☁️', url:'https://www.frandroid.com/feed' },
+      { name:'IGN',       emoji:'🎮', url:'https://feeds.feedburner.com/ign/games-all' },
+      { name:'Eurogamer', emoji:'🏢', url:'https://www.eurogamer.net/?format=rss' },
+    ], ['cloud gaming','GeForce NOW','xCloud','Xbox Cloud','Shadow','Boosteroid','5G','streaming','cloud','game pass'],
+    'feed-cloud', 'loading-cloud', FALLBACK_CLOUD).finally(() => { btn.disabled=false; btn.style.opacity='0.7'; });
+  }
 }
 
 // ── Fallback static content shown if RSS fails ──
@@ -1604,44 +1631,100 @@ function showFallback(gridId, loadingId, data) {
   document.getElementById(gridId).innerHTML = data.map(d => buildCard(d)).join('');
 }
 
-// Try rss2json proxy then fallback
+// ── Multi-proxy RSS loader ──
+// Tries several CORS proxies in order, then falls back to static content.
+
+const PROXIES = [
+  url => `https://api.rss2json.com/v1/api.json?count=12&rss_url=${encodeURIComponent(url)}`,
+  url => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,
+  url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
+];
+
+// Parse raw XML string into item array
+function parseXML(xmlStr) {
+  try {
+    const doc = new DOMParser().parseFromString(xmlStr, 'text/xml');
+    const items = Array.from(doc.querySelectorAll('item'));
+    return items.map(it => {
+      const get = tag => it.querySelector(tag)?.textContent?.trim() || '';
+      const link = get('link') || it.querySelector('link')?.getAttribute('href') || '';
+      const enclosure = it.querySelector('enclosure');
+      const mediaContent = it.querySelector('content') || it.querySelector('[url]');
+      const img = enclosure?.getAttribute('url') || mediaContent?.getAttribute('url') || null;
+      return { title: get('title'), link, description: get('description') || get('summary'), pubDate: get('pubDate') || get('published'), img };
+    });
+  } catch(e) { return []; }
+}
+
+async function fetchFeed(feedUrl) {
+  // Proxy 0: rss2json (JSON API)
+  try {
+    const res = await fetch(PROXIES[0](feedUrl), { signal: AbortSignal.timeout(7000) });
+    if (res.ok) {
+      const data = await res.json();
+      if (data.status === 'ok' && data.items?.length) return data.items.map(it => ({
+        title: it.title, link: it.link, description: it.description, pubDate: it.pubDate,
+        img: it.thumbnail || it.enclosure?.link || null
+      }));
+    }
+  } catch(e) {}
+
+  // Proxy 1: allorigins (returns XML wrapped in JSON)
+  try {
+    const res = await fetch(PROXIES[1](feedUrl), { signal: AbortSignal.timeout(7000) });
+    if (res.ok) {
+      const data = await res.json();
+      const items = parseXML(data.contents || '');
+      if (items.length) return items;
+    }
+  } catch(e) {}
+
+  // Proxy 2: corsproxy.io (raw XML)
+  try {
+    const res = await fetch(PROXIES[2](feedUrl), { signal: AbortSignal.timeout(7000) });
+    if (res.ok) {
+      const text = await res.text();
+      const items = parseXML(text);
+      if (items.length) return items;
+    }
+  } catch(e) {}
+
+  return null; // all proxies failed
+}
+
 async function loadRSS(feeds, keywords, gridId, loadingId, fallback) {
-  const PROXY = 'https://api.rss2json.com/v1/api.json?count=10&rss_url=';
   const grid = document.getElementById(gridId);
   const loading = document.getElementById(loadingId);
   const cards = [];
   let anySuccess = false;
+  const kw = keywords.length ? new RegExp(keywords.join('|'), 'i') : null;
 
-  for (const f of feeds) {
-    try {
-      const res = await fetch(PROXY + encodeURIComponent(f.url), { signal: AbortSignal.timeout(6000) });
-      if (!res.ok) throw new Error('bad status');
-      const data = await res.json();
-      if (data.status !== 'ok' || !data.items?.length) throw new Error('no items');
-      anySuccess = true;
-      const kw = keywords.length ? new RegExp(keywords.join('|'), 'i') : null;
-      const items = (kw ? data.items.filter(it => kw.test((it.title||'')+(it.description||''))) : data.items).slice(0, 3);
-      for (const item of items) {
-        const desc = (item.description||'').replace(/<[^>]+>/g,'').slice(0, 140);
-        const img = item.thumbnail || (item.enclosure?.link) || null;
-        const date = item.pubDate ? new Date(item.pubDate).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'}) : '';
-        cards.push(buildCard({ source: f.name, emoji: f.emoji, title: item.title||'Sans titre', desc: desc+'…', link: item.link, img, date }));
-      }
-    } catch(e) {
-      // silently skip this feed, try next
+  const feedPromises = feeds.map(f => fetchFeed(f.url).then(items => ({ f, items })));
+  const results = await Promise.allSettled(feedPromises);
+
+  for (const result of results) {
+    if (result.status !== 'fulfilled') continue;
+    const { f, items } = result.value;
+    if (!items || !items.length) continue;
+    anySuccess = true;
+    const filtered = (kw ? items.filter(it => kw.test((it.title||'')+(it.description||''))) : items).slice(0, 3);
+    const toShow = filtered.length ? filtered : items.slice(0, 2);
+    for (const item of toShow) {
+      const desc = (item.description||'').replace(/<[^>]+>/g,'').replace(/&[a-z]+;/gi,'').slice(0, 150);
+      const date = item.pubDate ? (() => { try { return new Date(item.pubDate).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'}); } catch(e){ return ''; } })() : '';
+      cards.push(buildCard({ source: f.name, emoji: f.emoji, title: item.title||'Sans titre', desc: desc ? desc+'…' : '', link: item.link, img: item.img||null, date }));
+      if (cards.length >= 6) break;
     }
+    if (cards.length >= 6) break;
   }
 
   loading.style.display = 'none';
 
   if (!anySuccess || cards.length < 2) {
-    // Full fallback
     grid.innerHTML = fallback.map(d => buildCard(d)).join('');
   } else {
-    // Fill remaining slots with fallback if needed
     while (cards.length < 4) {
-      const fb = fallback[cards.length % fallback.length];
-      cards.push(buildCard(fb));
+      cards.push(buildCard(fallback[cards.length % fallback.length]));
     }
     grid.innerHTML = cards.join('');
   }
@@ -1651,15 +1734,15 @@ async function loadRSS(feeds, keywords, gridId, loadingId, fallback) {
 loadRSS([
   { name:'TechPowerUp',      emoji:'🖥️', url:'https://www.techpowerup.com/rss/news' },
   { name:'VideoCardz',       emoji:'⚡', url:'https://videocardz.com/feed' },
-  { name:'NVIDIA Developer', emoji:'🧠', url:'https://developer.nvidia.com/blog/feed' },
-], ['GPU','RTX','DLSS','GeForce','Blackwell','IA','driver','RTX 50','RDNA','FSR','ray tracing'], 'feed-gpu', 'loading-gpu', FALLBACK_GPU);
+  { name:'Tom\'s Hardware',  emoji:'🧠', url:'https://www.tomshardware.com/feeds/all' },
+], ['GPU','RTX','DLSS','GeForce','Blackwell','IA','driver','RTX 50','RDNA','FSR','ray tracing','graphics','card'], 'feed-gpu', 'loading-gpu', FALLBACK_GPU);
 
 // Cloud Gaming feeds
 loadRSS([
-  { name:'Frandroid',     emoji:'☁️', url:'https://www.frandroid.com/feed' },
-  { name:'JeuxVideo.com', emoji:'🎮', url:'https://www.jeuxvideo.com/rss/news.xml' },
-  { name:'IGN France',    emoji:'🏢', url:'https://fr.ign.com/feed.xml' },
-], ['cloud gaming','GeForce NOW','xCloud','Xbox Cloud','Shadow','Boosteroid','5G','streaming jeux','cloud'], 'feed-cloud', 'loading-cloud', FALLBACK_CLOUD);
+  { name:'Frandroid',        emoji:'☁️', url:'https://www.frandroid.com/feed' },
+  { name:'IGN',              emoji:'🎮', url:'https://feeds.feedburner.com/ign/games-all' },
+  { name:'Eurogamer',        emoji:'🏢', url:'https://www.eurogamer.net/?format=rss' },
+], ['cloud gaming','GeForce NOW','xCloud','Xbox Cloud','Shadow','Boosteroid','5G','streaming','cloud','game pass'], 'feed-cloud', 'loading-cloud', FALLBACK_CLOUD);
 </script>
 </body>
 </html>
